@@ -1,7 +1,7 @@
 module MicrosoftActionmailer
   module Api
     # Creates a message and saves in 'Draft' mailFolder
-    def ms_create_message(token, subject, content, to_addresses, cc_addresses, bcc_addresses, attachments)
+    def ms_create_message(token, subject, content, to_addresses, cc_addresses, bcc_addresses, attachments, api_user_dir)
 
       attachment_list = []
       attachments.each do |attachment|
@@ -44,7 +44,7 @@ module MicrosoftActionmailer
         "attachments": attachment_list
       }
 
-      create_message_url = '/v1.0/me/messages'
+      create_message_url = "/v1.0/#{api_user_dir}/messages"
       req_method = 'post'
       response = make_api_call create_message_url, token, query,req_method
       raise response.parsed_response.to_s || "Request returned #{response.code}" unless response.code == 201
@@ -52,8 +52,8 @@ module MicrosoftActionmailer
     end
 
     # Sends the message created using message id
-    def ms_send_message(token, message_id)
-      send_message_url = "/v1.0/me/messages/#{message_id}/send"
+    def ms_send_message(token, message_id, api_user_dir)
+      send_message_url = "/v1.0/#{api_user_dir}/messages/#{message_id}/send"
       req_method = 'post'
       query = {}
       response = make_api_call send_message_url, token, query,req_method
