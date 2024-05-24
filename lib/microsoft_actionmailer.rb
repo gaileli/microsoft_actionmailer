@@ -42,6 +42,7 @@ module MicrosoftActionmailer
           mail.to,
           mail.cc,
           mail.bcc,
+          mail.reply_to,
           mail.attachments,
           api_user_dir
         )
